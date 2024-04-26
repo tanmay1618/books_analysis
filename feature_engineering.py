@@ -6,12 +6,27 @@ from pyspark.ml.feature import StringIndexer, OneHotEncoder
 from pyspark.ml import Pipeline
 from pyspark.sql.functions import col, udf
 from pyspark.sql.types import IntegerType
+from gensim.models import KeyedVectors
+import numpy as np
 
+# Load the pre-trained word vectors model
+model_path = '/home/tanmay/Downloads/GoogleNews-vectors-negative300.bin'  # Replace this with the path to your pre-trained model
+word_vectors = KeyedVectors.load_word2vec_format(model_path, binary=True)
 from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
 from datetime import datetime
 
-
+# Function to compute sentence embeddings
+def compute_sentence_embedding(sentence, word_vectors):
+    words = sentence.split()
+    vectors = []
+    for word in words:
+        if word in word_vectors:
+            vectors.append(word_vectors[word])
+    if vectors:
+        return np.mean(vectors, axis=0)
+    else:
+        return np.zeros(word_vectors.vector_size)
 
 
 # Initialize Spark session

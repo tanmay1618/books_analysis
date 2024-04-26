@@ -22,7 +22,7 @@ df = spark.read.option("header", "true").option("delimiter", ",").option("quote"
 # Split data into train and test sets
 train, test = df.randomSplit([0.8, 0.2], seed=42)
 
-
+#-------------------Experiement 1------------------------------------------
 exp_name = "1"
 # Make predictions
 # Train linear regression model
@@ -39,7 +39,7 @@ print("Experiment ",exp_name)
 print("Mean Squared Error:", mse)
 print("*"*100)
 
-
+#---------------Experiment 2---------------------------------------------
 exp_name = "2"
 # Define RandomForestRegressor
 rf = RandomForestRegressor(featuresCol="features", labelCol="Impact")
@@ -77,3 +77,13 @@ print("Mean Absolute Percentage Error (MAPE):", mape)
 print("Total Training Time:", total_time)
 print("*"*100)
 
+
+#-----------------Experiment-3------------------------------------------------
+exp_name = "3"
+input_size = 10000  # Example size of vocabulary
+hidden_size1 = 128
+hidden_size2 = 64
+
+model = BookImpactPredictor(input_size, hidden_size1, hidden_size2)
+predicted_impact = model(title, description, published_year, other_features)
+print(predicted_impact)
