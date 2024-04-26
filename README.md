@@ -10,10 +10,10 @@
 
 **Process Followed:**
 1. Preliminary EDA was done on the notebooks. The notebooks contains ipynb files for the analysis.
-2. The EDA analysis is present in the two files:
+2. The EDA analysis is present in the two files:/n
     2.1 EDA1.pdf
     2.2 EDA2.pdf
-3. The model building is divided into two parts:
+3. The model building is divided into two parts:/n
     3.1 Feature Engineering: All the features are created in the feature_engineering.py file. The final file features.csv is produced which can be used in the model building.
        For feature engineering,
        <li> Title - Tfidf and sentence embedding is done </li>
