@@ -17,7 +17,7 @@ from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
 from datetime import datetime
 
 # Function to compute sentence embeddings
-def compute_sentence_embedding(sentence, word_vectors):
+def compute_sentence_embedding(sentence):
     words = sentence.split()
     vectors = []
     for word in words:
@@ -37,6 +37,13 @@ spark = SparkSession.builder \
 # Load data
 df = spark.read.option("header", "true").option("delimiter", ",").option("quote", "\"").option("escape", "\"").csv("../csv/books_task.csv")
 
+embedding_udf = udf(compute_sentence_embedding, StringType())
+
+df = df.withColumn("title_embedding", uppercase_udf(df["Title"]))
+df = df.withColumn("description_embedding", uppercase_udf(df["description"]))
+
+tokenizer = Tokenizer(inputCol="Title", outputCol="tileWords")
+df = tokenizer.transform(df)
 
 df = df.withColumn("Impact", col("Impact").cast("float"))
 # Data Cleaning and Feature Engineering
